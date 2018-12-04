@@ -20,7 +20,7 @@ import os
 
 def setSettings(ml, vers):
 
-    if (ml.initPar == None):
+    if (ml.initPar.any() == None):
         raise NameError(
             "ml-opt (initPar): no initial parameters given, exiting...")
 
@@ -101,11 +101,11 @@ def setSettings(ml, vers):
             print("gpo (preIter): defaulting to " + str(ml.preIter) +
                   " pre-iterations to estimate hyperparameters.")
 
-        if (ml.upperBounds == None):
+        if (ml.upperBounds.any() == None):
             raise NameError(
                 "gpo (upperBounds): no upper parameter bounds (upperBounds) given.")
 
-        if (ml.lowerBounds == None):
+        if (ml.lowerBounds.any() == None):
             raise NameError(
                 "gpo (lowerBounds): no lower parameter bounds (lowerBounds) given.")
 
@@ -126,7 +126,7 @@ def setSettings(ml, vers):
             ml.jitterParameters = True
             print("gpo (jitterParameters): defaulting to jitter parameters.")
 
-        if ((ml.jitteringCovariance == None) & (ml.jitterParameters == True)):
+        if ((ml.jitteringCovariance.any() == None) & (ml.jitterParameters == True)):
             tmp = 0.01
             ml.jitteringCovariance = tmp * np.diag(np.ones(ml.nPars))
             print("gpo (jitteringCovariance): defaulting to jitter parameters with Gaussian noise with variance " + str(tmp) + ".")

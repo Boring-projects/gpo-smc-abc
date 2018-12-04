@@ -16,13 +16,11 @@ from state import smc
 from para import gpo_gpy
 from models import lgss_3parameters
 
-
 ##############################################################################
 # Arrange the data structures
 ##############################################################################
 sm = smc.smcSampler()
 gpo = gpo_gpy.stGPO()
-
 
 ##############################################################################
 # Setup the system
@@ -42,7 +40,6 @@ sys.version = "standard"
 ##############################################################################
 sys.generateData()
 
-
 ##############################################################################
 # Setup the parameters
 ##############################################################################
@@ -50,7 +47,6 @@ th = lgss_3parameters.ssm()
 th.nParInference = 2
 th.copyData(sys)
 th.version = "standard"
-
 
 ##############################################################################
 # Setup the GPO algorithm
@@ -71,7 +67,6 @@ gpo.preSamplingMethod = "latinHyperCube"
 gpo.EstimateHyperparametersInterval = 25
 gpo.EstimateThHatEveryIteration = False
 gpo.EstimateHessianEveryIteration = False
-
 
 ##############################################################################
 # Setup the SMC algorithm

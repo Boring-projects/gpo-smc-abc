@@ -22,7 +22,7 @@ library("RColorBrewer")
 plotColors <- brewer.pal(8, "Dark2")
 
 # Change the working directory to be correct on your system
-# setwd("C:/home/src/gpo-abc2015/scripts-paper-plots")
+setwd("/home/maxtom/codespace/Boeing/gpo-smc-abc/scripts-paper-plots")
 
 
 ###################################################################################

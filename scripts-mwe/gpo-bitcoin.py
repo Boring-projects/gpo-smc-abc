@@ -12,7 +12,7 @@
 ##############################################################################
 ##############################################################################
 
-import Quandl
+import quandl
 import numpy as np
 import matplotlib.pylab as plt
 
@@ -48,7 +48,7 @@ sys.transformY = "arctan"
 ##############################################################################
 sys.generateData()
 
-d = Quandl.get("BAVERAGE/EUR", trim_start="2013-09-03", trim_end="2014-09-03")
+d = quandl.get("BAVERAGE/EUR", trim_start="2013-09-03", trim_end="2014-09-03")
 sys.y = np.matrix(100 * np.diff(np.log(d['24h Average']))).reshape((sys.T, 1))
 
 
