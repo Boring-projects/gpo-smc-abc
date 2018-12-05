@@ -76,8 +76,7 @@ class ssm(object):
         dpart = self.par[0] + self.par[1] * (xt - self.par[0])
 
         # Stochastic shock (noise) uncorrelated with returns
-        spart = self.par[
-            2] * np.sqrt(1.0 - self.par[3]**2) * np.random.randn(1, len(xt))
+        spart = self.par[2] * np.sqrt(1.0 - self.par[3]**2) * np.random.randn(1, len(xt))
 
         # Stochastic shock (noise) correlated with returns
         et = self.y[tt] * np.exp(-0.5 * xt)

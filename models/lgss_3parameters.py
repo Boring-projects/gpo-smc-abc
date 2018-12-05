@@ -22,7 +22,6 @@ import numpy as np
 from scipy.stats import norm
 from models_helpers import *
 
-
 class ssm(object):
 
     #=========================================================================
@@ -62,8 +61,7 @@ class ssm(object):
     def generateStateFA(self, xt, tt):
         delta = self.par[1]**(-2) + self.par[2]**(-2)
         delta = 1.0 / delta
-        part1 = delta * (self.y[tt + 1] * self.par[2]**(-2) +
-                         self.par[1]**(-2) * (self.par[0] * xt + self.u[tt]))
+        part1 = delta * (self.y[tt + 1] * self.par[2]**(-2) + self.par[1]**(-2) * (self.par[0] * xt + self.u[tt]))
         part2 = np.sqrt(delta) * np.random.randn(1, len(xt))
         return part1 + part2
 

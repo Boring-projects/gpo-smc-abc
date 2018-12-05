@@ -24,7 +24,7 @@ library("RColorBrewer")
 plotColors = brewer.pal(6, "Dark2");
 
 # Change the working directory to be correct on your system
-setwd("/home/maxtom/codespace/Boeing/gpo-smc-abc/scripts-paper-plots")
+setwd("/home/i/Projects/gpo-smc-abc/scripts-paper-plots")
 
 
 ###################################################################################

@@ -11,7 +11,6 @@
 ##############################################################################
 ##############################################################################
 
-
 import numpy as np
 from state import smc
 from para import gpo_gpy
@@ -20,8 +19,8 @@ from models import lgss_3parameters
 ##############################################################################
 # Arrange the data structures
 ##############################################################################
-sm = smc.smcSampler()
-gpo = gpo_gpy.stGPO()
+sm = smc.smcSampler() # FIXME: allocate sequential Monte Carlo
+gpo = gpo_gpy.stGPO() # FIXME: apply gpo algorithm
 
 ##############################################################################
 # Setup the system
@@ -31,10 +30,9 @@ sys.par = np.zeros((sys.nPar, 1))
 sys.par[0] = 0.50
 sys.par[1] = 1.00
 sys.par[2] = 0.10
-sys.T = 2000
-sys.xo = 0.0
+sys.T = 2000 # FIXME: here is the T defination
+sys.xo = 0.0 # FIXME: here is the initial state xo defination
 sys.version = "standard"
-
 
 ##############################################################################
 # Generate data
@@ -79,7 +77,6 @@ sm.resampFactor = 2.0
 sm.genInitialState = True
 sm.xo = sys.xo
 th.xo = sys.xo
-
 
 ##############################################################################
 # GPO using the Particle filter

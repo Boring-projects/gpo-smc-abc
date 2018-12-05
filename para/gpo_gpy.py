@@ -16,6 +16,8 @@ import matplotlib.pylab as plt
 
 import GPy
 import pandas
+from time import time
+import pdb
 
 from DIRECT import solve
 from pyDOE import lhs
@@ -93,7 +95,7 @@ class stGPO(object):
         #=====================================================================
         # Initalisation
         #=====================================================================
-
+        
         # Set initial settings
         sm.calcGradientFlag = False
         sm.calcHessianFlag = False
@@ -132,10 +134,12 @@ class stGPO(object):
         # Main loop
         #=====================================================================
 
+        startTime = time()
         # Pre-compute hypercube points if required
         if (self.preSamplingMethod == "latinHyperCube"):
             lhd = lhs(self.nPars, samples=self.preIter)
 
+        
         for kk in range(0, self.preIter):
 
             # Sampling parameters using uniform sampling or Latin hypercubes
@@ -164,9 +168,13 @@ class stGPO(object):
                 print("gpo: Pre-iteration: " + str(kk) + " of " + str(self.preIter) + " completed, sampled " +
                       str(np.round(thPre[kk, :], 3)) + " with " + str(np.round(obPre[kk], 2)) + ".")
 
+        print ("Sampling time is {}".format(time()-startTime))
+
         #=====================================================================
         # Fit the GP regression
         #=====================================================================
+        
+        startTime = time()
 
         # Remove nan values for the objective function
         idxNotNaN = ~np.isnan(obPre)
@@ -184,6 +192,7 @@ class stGPO(object):
         # Create the model object
         m = GPy.models.GPRegression(thPre, ynorm, kernel, normalizer=False)
 
+        print ("Fit GP time is {}".format(time()-startTime))
         #=====================================================================
         # Update hyperparameters
         #=====================================================================
@@ -216,6 +225,8 @@ class stGPO(object):
         thp[self.iter, :] = thSys.returnParameters()
         thSys.transform()
 
+        startTime = time()
+
         while (runNextIter):
 
             # Store the parameter
@@ -228,11 +239,14 @@ class stGPO(object):
             obp[self.iter], xhatf[self.iter,
                                   :] = self.evaluateObjectiveFunction(sm, sys, thSys)
 
+            
             # Collect the sampled data (if the objective is finite)
             idxNotNaN = ~np.isnan(obp[range(self.iter), :])
-            x = np.vstack((thPre, thp[(idxNotNaN).any(axis=1)]))
-            y = np.vstack((obPre, obp[(idxNotNaN).any(axis=1)]))
-
+            tmp_thp=thp[range(self.iter), :]
+            tmp_obp=obp[range(self.iter), :]
+            # TODO: check the array problem here.
+            x = np.vstack((thPre, tmp_thp[(idxNotNaN).any(axis=1)]))
+            y = np.vstack((obPre, tmp_obp[(idxNotNaN).any(axis=1)]))
             #------------------------------------------------------------------
             # Fit the GP to the sampled data
             #------------------------------------------------------------------
@@ -339,6 +353,7 @@ class stGPO(object):
                     self.estimateHessian(thhatCurrent)
                     thhatHessian[self.iter - 1, :, :] = self.invHessianEstimate
 
+            print ("Iteration time is {}".format(time()-startTime))
             #------------------------------------------------------------------
             # Print output to console
             #------------------------------------------------------------------
@@ -515,8 +530,10 @@ class stGPO(object):
 
         # Collect the sampled data (if the objective is finite)
         idxNotNaN = ~np.isnan(self.obp[range(self.maxIter - 1), :])
-        x = np.vstack((self.thPre, self.thp[(idxNotNaN).any(axis=1)]))
-        y = np.vstack((self.obPre, self.obp[(idxNotNaN).any(axis=1)]))
+        tmp_thp=self.thp[range(self.iter), :]
+        tmp_obp=self.obp[range(self.iter), :]
+        x = np.vstack((self.thPre, tmp_thp[(idxNotNaN).any(axis=1)]))
+        y = np.vstack((self.obPre, tmp_obp[(idxNotNaN).any(axis=1)]))
 
         xt = np.zeros((x.shape[0], x.shape[1]))
 
